@@ -6,13 +6,7 @@
 [node name="CharacterBody2D" instance=ExtResource("1_nvd3o")]
 script = ExtResource("2_ugjnx")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." index="2"]
-path_max_distance = 200.0
-path_postprocessing = 1
-debug_enabled = true
-
-[node name="Timer" type="Timer" parent="." index="3"]
-wait_time = 0.1
+[node name="Timer" type="Timer" parent="." index="2"]
 autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
