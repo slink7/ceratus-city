@@ -86,7 +86,7 @@ public partial class AutoTilemap : TileMap
 				}
 			}
 			DrawCircle(astar2d.GetPointPosition(id), 2.0f, DEBUG_COLOR);
-			DrawString(ThemeDB.FallbackFont, astar2d.GetPointPosition(id), ids_to.Length.ToString(), fontSize:8);
+			//DrawString(ThemeDB.FallbackFont, astar2d.GetPointPosition(id), ids_to.Length.ToString(), fontSize:8);
 		}
 		
 	}
@@ -106,8 +106,11 @@ public partial class AutoTilemap : TileMap
 					Vector2I pos = CastDown(new Vector2I(cell.X - 1, cell.Y));
 					if (pos != Vector2I.Zero)
 					{
+						long id2 = CreateNode(new Vector2I(pos.X, cell.Y));
 						long id3 = CreateNode(pos);
-						astar2d.ConnectPoints(id, id3, pos.Y - (cell.Y - 1) < MAX_JUMP_HEIGHT);
+						astar2d.ConnectPoints(id, id2);
+						if (id2 != id3)
+							astar2d.ConnectPoints(id2, id3, pos.Y - cell.Y + 1 < MAX_JUMP_HEIGHT);
 					}
 				}
 				if (local_topo.Y == -1)
@@ -115,8 +118,11 @@ public partial class AutoTilemap : TileMap
 					Vector2I pos = CastDown(new Vector2I(cell.X + 1, cell.Y));
 					if (pos != Vector2I.Zero)
 					{
+						long id2 = CreateNode(new Vector2I(pos.X, cell.Y));
 						long id3 = CreateNode(pos);
-						astar2d.ConnectPoints(id, id3, pos.Y - (cell.Y - 1) < MAX_JUMP_HEIGHT);
+						astar2d.ConnectPoints(id, id2);
+						if (id2 != id3)
+							astar2d.ConnectPoints(id2, id3, pos.Y - cell.Y + 1 < MAX_JUMP_HEIGHT);
 					}
 				}
 			}

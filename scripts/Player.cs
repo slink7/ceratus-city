@@ -11,6 +11,11 @@ public partial class Player : WumController
 		Move_Jump = Input.IsActionJustPressed("Move_Jump");
 		Move_Left = Input.IsActionPressed("Move_Left");
 		Move_Right = Input.IsActionPressed("Move_Right");
+        if (Input.IsKeyPressed(Key.Alt))
+        {
+            Node2D n = GetNode<Node2D>("../Target");
+            n.Translate(- n.Transform.Origin + Transform.Origin);
+        }
         base._PhysicsProcess(delta);
     }
 
