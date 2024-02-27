@@ -76,7 +76,7 @@ public partial class AutoTilemap : TileMap
 			foreach (long to in ids_to)
 			{
 				if (astar2d.ArePointsConnected(to, id, false))
-					DrawLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR);
+					DrawLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR, 3.0f);
 				else
 				{
 					Vector2 d = astar2d.GetPointPosition(to) - astar2d.GetPointPosition(id);

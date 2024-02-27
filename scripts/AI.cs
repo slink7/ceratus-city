@@ -14,84 +14,65 @@ public partial class AI : WumController
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
 		r = new Random();
 		Speed += r.NextSingle() * 20.0f - 10.0f;
 		nav = GetNode<AutoTilemap>("../TileMap");
 		base._Ready();
 	}
 
-	bool Has_Same_Sign(float a, float b)
-	{
-		return Mathf.Sign(a) == Mathf.Sign(b);
-	}
-
-	bool Has_Same_Sign(Vector2 a, Vector2 b)
-	{
-		return a.Sign() == b.Sign();
-	}
-
+	//Renvoie vrai ou faux si la cible actuelle est "atteinte"
 	bool Has_Reached()
 	{
 		Vector2 to_next = path[index] - Transform.Origin;
 		float dist = to_next.Length();
-		if (dist < 100.0f)
-			return true;
-		return false;
-		if (index >= path.Length - 1)
-			return true;
-		Vector2 to_next_next = path[index + 1] - path[index];
 
-		if (Has_Same_Sign(to_next, to_next_next) && dist < 100.0f)
-			return true;
-		if (dist < 12.0f)
+		if (dist < 16.0f)
 			return true;
 		return false;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _PhysicsProcess(double delta)
+	//Met a jour le chemin grace a un AStar2D custom
+	void Update_Path()
 	{
 		Vector2 TargetPosition = GetNode<Node2D>("../Target").Transform.Origin;
 		path = nav.GetPointPath(Transform.Origin, TargetPosition);
 		index = 1;
 		has_target = true;
+	}
 
-		if (!has_target)
-			return ;
+	void _on_timer_timeout()
+	{
+		//Met a jour le chemin a chaque frame
+		Update_Path();
+	}
 
-		if (index >= path.Length)
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _PhysicsProcess(double delta)
+	{
+		
+
+		//Guardes
+		if (!has_target || index >= path.Length)
 		{
 			has_target = false;
 			return ;
 		}
 
-		Vector2 next = path[index] - Transform.Origin;
+		//Avancement de l'index du chemin
 		if (Has_Reached() && index < path.Length - 1)
 			index++;
-		next = (path[index] - Transform.Origin);
+		Vector2 next = path[index] - Transform.Origin;
 
-		Move_Right = next.X > 8f || (next.X > 0f && Velocity.X < 10f);
-		Move_Left = next.X < -8f || (next.X < 0f && Velocity.X > -10f);
-		// Move_Right = !Move_Left && (next.X > 16f || Velocity.X < 100.0f);
-		// Move_Left = !Move_Right && (next.X < -16f || Velocity.X > -100.0f);
+		//Mets les booléens de controls pour se deplacer
+		Move_Right = next.X > 8f || (next.X > 0f && Velocity.X < 5f);
+		Move_Left = next.X < -8f || (next.X < 0f && Velocity.X > -5f);
 		if (next.Y < -17f && (Velocity.Y > 0.05f || IsOnFloor()))
-		{
-			// GD.Print("" + next + "\n" + path[index] + "\n" + Transform.Origin + "\n");
 			Move_Jump = true;
-		}
-		// Move_Right = r.Next() % 200 == 1 ^ Move_Right;
-		// Move_Left = r.Next() % 200 == 1 ^ Move_Left;
-		// Move_Jump = r.Next() % 50 == 1;
+
 		base._PhysicsProcess(delta);
 	}
 
-	void _on_timer_timeout()
-	{
-		
-		
-	}
-
+	//Afficher pour le debug
     public override void _Process(double delta)
     {
 		QueueRedraw();
@@ -104,7 +85,8 @@ public partial class AI : WumController
 		{
 			return ;
 		}
-		DrawPolylineColors(path.Select(x => x - Transform.Origin).ToArray(), Enumerable.Repeat(Colors.Red, path.Length).ToArray());
+		DrawLine(Vector2.Zero, path[index] - Transform.Origin, Colors.Green, 1.0f);
+		DrawPolylineColors(path.Select(x => x - Transform.Origin).ToArray(), Enumerable.Repeat(Colors.Red, path.Length).ToArray(), 2.0f);
 		base._Draw();
     }
 }
