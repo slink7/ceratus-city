@@ -258,4 +258,4 @@ shape = SubResource("CircleShape2D_nv4jn")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_bhheu")
 animation = &"free_fall"
-frame_progress = 0.05694
+frame_progress = 0.703282
