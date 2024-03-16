@@ -12,7 +12,7 @@ public partial class WumController : CharacterBody2D
 	protected bool Move_Jump = false;
 
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	private Sprite2D sprite;
+	private AnimatedSprite2D sprite;
 
 	private int jump_count = 0;
 
@@ -25,8 +25,23 @@ public partial class WumController : CharacterBody2D
 
     public override void _Ready()
     {
-		sprite = GetNode<Sprite2D>("Sprite2D");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
     }
+
+	public override void _Process(double delta)
+	{
+		if (Velocity.Y > 0.0f)
+			sprite.Play("free_fall");
+		if (Mathf.Abs(Velocity.X) > 0.1f)
+		{
+			if (Velocity.Y <= 0.0f)
+				sprite.Play("run");
+			sprite.FlipH = Velocity.X >= 0.0f;
+		}
+		else if (Velocity.Y <= 0.0f)
+			sprite.Play("idle");
+		
+	}
 
     public override void _PhysicsProcess(double delta)
 	{

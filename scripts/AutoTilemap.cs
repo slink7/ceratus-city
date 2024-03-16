@@ -65,29 +65,29 @@ public partial class AutoTilemap : TileMap
 
 	public override void _Draw()
 	{
-		if (!debug)
-			return ;
+		// if (!debug)
+		// 	return ;
 
-		long[] ids = astar2d.GetPointIds();
+		// long[] ids = astar2d.GetPointIds();
 		
-		foreach (long id in ids)
-		{
-			long[] ids_to = astar2d.GetPointConnections(id);
-			foreach (long to in ids_to)
-			{
-				if (astar2d.ArePointsConnected(to, id, false))
-					DrawLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR, 3.0f);
-				else
-				{
-					Vector2 d = astar2d.GetPointPosition(to) - astar2d.GetPointPosition(id);
-					float theta = Mathf.Atan2(d.Y, d.X);
-					DrawDashedLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR);
-					DrawArc((astar2d.GetPointPosition(id) + astar2d.GetPointPosition(to)) / 2.0f, 4.0f, theta - Mathf.Pi / 2.0f, theta + Mathf.Pi / 2.0f, 3, DEBUG_COLOR);
-				}
-			}
-			DrawCircle(astar2d.GetPointPosition(id), 2.0f, DEBUG_COLOR);
-			//DrawString(ThemeDB.FallbackFont, astar2d.GetPointPosition(id), ids_to.Length.ToString(), fontSize:8);
-		}
+		// foreach (long id in ids)
+		// {
+		// 	long[] ids_to = astar2d.GetPointConnections(id);
+		// 	foreach (long to in ids_to)
+		// 	{
+		// 		if (astar2d.ArePointsConnected(to, id, false))
+		// 			DrawLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR, 3.0f);
+		// 		else
+		// 		{
+		// 			Vector2 d = astar2d.GetPointPosition(to) - astar2d.GetPointPosition(id);
+		// 			float theta = Mathf.Atan2(d.Y, d.X);
+		// 			DrawDashedLine(astar2d.GetPointPosition(id), astar2d.GetPointPosition(to), DEBUG_COLOR);
+		// 			DrawArc((astar2d.GetPointPosition(id) + astar2d.GetPointPosition(to)) / 2.0f, 4.0f, theta - Mathf.Pi / 2.0f, theta + Mathf.Pi / 2.0f, 3, DEBUG_COLOR);
+		// 		}
+		// 	}
+		// 	DrawCircle(astar2d.GetPointPosition(id), 2.0f, DEBUG_COLOR);
+		// 	//DrawString(ThemeDB.FallbackFont, astar2d.GetPointPosition(id), ids_to.Length.ToString(), fontSize:8);
+		// }
 		
 	}
 

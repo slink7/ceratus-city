@@ -81,12 +81,12 @@ public partial class AI : WumController
 
     public override void _Draw()
     {
-		if (path == null || path.Length < 2)
-		{
-			return ;
-		}
-		DrawLine(Vector2.Zero, path[index] - Transform.Origin, Colors.Green, 1.0f);
-		DrawPolylineColors(path.Select(x => x - Transform.Origin).ToArray(), Enumerable.Repeat(Colors.Red, path.Length).ToArray(), 2.0f);
-		base._Draw();
+		// if (path == null || path.Length < 2)
+		// {
+		// 	return ;
+		// }
+		// DrawLine(Vector2.Zero, path[index] - Transform.Origin, Colors.Green, 1.0f);
+		// DrawPolylineColors(path.Select(x => x - Transform.Origin).ToArray(), Enumerable.Repeat(Colors.Red, path.Length).ToArray(), 2.0f);
+		// base._Draw();
     }
 }
